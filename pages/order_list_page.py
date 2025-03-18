@@ -1,11 +1,6 @@
 import allure
-
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver import ActionChains
-from .base_page import BasePage
+from pages.base_page import BasePage
 from locators.order_list_page_locators import OrderListLocators
-
 
 class OrderListPage(BasePage):
 
@@ -15,10 +10,9 @@ class OrderListPage(BasePage):
 
     @allure.step('Закрываем детали заказа')
     def close_order_details(self):
-        # Закрываем детали заказа
-        close_button = self.driver.find_element(*OrderListLocators.CLOSE_BUTTON_IN_MODAL)
-        actions = ActionChains(self.driver)
-        actions.move_to_element(close_button).click().perform()
+        # Ожидаем появления кнопки закрытия и кликаем по ней
+        element = self.find_element_script(OrderListLocators.CLOSE_BUTTON_IN_MODAL)
+        self.perform_action(element, "move_to_element")
 
     @allure.step('Получаем общее количество заказов')
     def get_total_order_amount(self):
@@ -31,13 +25,18 @@ class OrderListPage(BasePage):
 
     @allure.step('Получаем значение заказа в работе')
     def is_order_in_work(self):
-        order_element = WebDriverWait(self.driver, 20).until(
-            EC.presence_of_element_located(OrderListLocators.ORDER_IN_WORK)
-        )
+        order_element = self.wait_for_element(OrderListLocators.ORDER_IN_WORK, timeout=20)
 
         # Получаем текст элемента
-        value = self.driver.execute_script("return arguments[0].textContent;", order_element)
+        value = self.execute_script("return arguments[0].textContent;", order_element)
 
-        # Преобразуем текст в число
-        order_id = int(value)  # Убираем лишние пробелы и преобразуем в int
+        # Убираем лишние пробелы и преобразуем в int
+        order_id = int(value.strip())
         return order_id
+
+    def test_modal_visibility(self):
+        # Ожидание появления элемента с классом
+        modal = self.find_element_script(OrderListLocators.MODAL_WINDOW_CONTAINER)
+
+        # Получение значения свойства visibility
+        return modal.value_of_css_property("visibility")

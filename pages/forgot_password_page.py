@@ -3,7 +3,6 @@ from locators.forgot_password_page_locators import ForgotPasswordPageLocators
 import allure
 
 class ForgotPasswordPage(BasePage):
-
     @allure.step('Кликаем на поле ввода Email')
     def click_on_email_field(self):
         self.click_element(ForgotPasswordPageLocators.EMAIL_INPUT_FIELD)

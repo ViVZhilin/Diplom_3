@@ -1,9 +1,8 @@
-from .base_page import BasePage
-import allure
+from pages.base_page import BasePage
 from locators.personal_page_locators import PersonalPageLocators
+import allure
 
 class PersonalPage(BasePage):
-
     @allure.step('Переходим в раздел истории заказов')
     def click_order_history_button(self):
         self.click_element(PersonalPageLocators.ORDER_HISTORY_BUTTON)
@@ -14,4 +13,4 @@ class PersonalPage(BasePage):
 
     @allure.step('Проверяем открытие личного кабинета')
     def is_profile_page_opened(self):
-        return self.wait_for_element(PersonalPageLocators.CURRENT_PAGE).get_attribute("href") == self.base_url + 'account'
+        return self.get_current_url() == self.base_url + 'account'

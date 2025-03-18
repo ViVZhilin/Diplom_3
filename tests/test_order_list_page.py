@@ -4,19 +4,12 @@ from selenium import webdriver
 from pages.main_page import MainPage
 from pages.login_page import LoginPage
 from pages.order_list_page import OrderListPage
+from urls import Url
+from data import Data
 
 class TestOrderList:
-    base_url = "https://stellarburgers.nomoreparties.site/"
-    valid_email = "viktor_zhilin_17_000@yandex.ru"
-    valid_password = '123456'
 
-    @pytest.fixture(scope="function")
-    def driver(self):
-        driver = webdriver.Chrome()
-        yield driver
-        driver.quit()
 
-    @allure.title('Открытие списка заказов')
     def test_order_list(self, driver):
         main_page = MainPage(driver)
         order_list_page = OrderListPage(driver)
@@ -25,6 +18,7 @@ class TestOrderList:
         main_page.click_order_list_button()
         order_list_page.open_order_details()
         order_list_page.close_order_details()
+        assert order_list_page.test_modal_visibility() == "hidden"
 
     @allure.title('Проверка увеличения значения счетчиков')
     def test_order_counter(self, driver):
@@ -36,8 +30,8 @@ class TestOrderList:
         main_page.open()
         main_page.click_personal_page_button()
         login_page.click_on_email_field()
-        login_page.enter_email(self.valid_email)
-        login_page.enter_password(self.valid_password)
+        login_page.enter_email(Data.VALID_EMAIL)
+        login_page.enter_password(Data.VALID_PASSWORD)
         login_page.click_login_button()
 
         # Переход на страницу ленты заказов
@@ -68,8 +62,8 @@ class TestOrderList:
         main_page.open()
         main_page.click_personal_page_button()
         login_page.click_on_email_field()
-        login_page.enter_email(self.valid_email)
-        login_page.enter_password(self.valid_password)
+        login_page.enter_email(Data.VALID_EMAIL)
+        login_page.enter_password(Data.VALID_PASSWORD)
         login_page.click_login_button()
 
         # Создание нового заказа
@@ -77,7 +71,6 @@ class TestOrderList:
         main_page.add_ingredient_to_constructor()
         main_page.click_order_button()
         order_id = main_page.get_order_id()
-        print(order_id)
         main_page.close_order_modal()
 
         # Проверка заказа в работе

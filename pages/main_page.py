@@ -1,23 +1,16 @@
-import time
-import allure
 from selenium.webdriver import ActionChains
-from .base_page import BasePage
+from pages.base_page import BasePage
 from locators.main_page_locators import MainPageLocators
+from locators.order_list_page_locators import OrderListLocators
+import allure
 
 class MainPage(BasePage):
-
-    @allure.step('Кликакем на кнопку личного кабинета')
+    @allure.step('Кликаем на кнопку личного кабинета')
     def click_personal_page_button(self):
-        #Вариант для Google Chrome
         self.click_element(MainPageLocators.PERSONAL_PAGE)
-
-        #Вариант для Mozila Firefox
-        #element = self.wait_for_element(MainPageLocators.PERSONAL_PAGE)
-        #self.driver.execute_script("arguments[0].click();", element)
 
     @allure.step('Открываем страницу заказов')
     def click_order_list_button(self):
-        #self.wait_for_element(MainPageLocators.ORDER_LIST_PAGE)
         self.click_element(MainPageLocators.ORDER_LIST_PAGE)
 
     @allure.step('Открываем страницу конструктора')
@@ -30,13 +23,8 @@ class MainPage(BasePage):
 
     @allure.step('Добавляем ингредиент')
     def add_ingredient_to_constructor(self):
-        # Ожидаем появления ингредиента (булки) в списке
         buns = self.wait_for_element(MainPageLocators.BUN_IN_LIST)
-
-        # Ожидаем появления области для добавления ингредиентов
         add_ingredient = self.wait_for_element(MainPageLocators.ADDED_INGREDIENTS)
-
-        # Используем ActionChains для перетаскивания ингредиента
         action = ActionChains(self.driver)
         action.drag_and_drop(buns, add_ingredient).perform()
 
@@ -46,10 +34,26 @@ class MainPage(BasePage):
 
     @allure.step('Получаем ID заказа')
     def get_order_id(self):
-        time.sleep(3)
-        return self.get_element_text(MainPageLocators.ORDER_ID)
+
+        self.wait_for_element_visible(OrderListLocators.LOADING_MODAL_WINDOW)
+        # Ожидаем, пока оверлей станет невидимым
+
+        self.wait_for_element_invisibility(OrderListLocators.LOADED_MODAL_WINDOW)
+
+        # Ожидаем появления элемента с ID заказа
+        order_id_element = self.wait_for_element(MainPageLocators.ORDER_ID)
+        return order_id_element.text
 
     @allure.step('Закрываем модальное окно')
     def close_order_modal(self):
-        time.sleep(3)
+        # Ожидаем появления класса Modal_modal__P3_V5
+        self.wait_for_element_visible(OrderListLocators.LOADING_MODAL_WINDOW)
+
+        # Ожидаем, пока оверлей станет невидимым
+        self.wait_for_element_invisibility(OrderListLocators.LOADED_MODAL_WINDOW)
+
+        # Ожидаем появления кнопки закрытия модального окна
+        self.wait_for_element(MainPageLocators.CLOSE_BUTTON_IN_MODAL_WINDOW)
+
+        # Используем JavaScript для клика, если стандартный клик не работает
         self.click_element(MainPageLocators.CLOSE_BUTTON_IN_MODAL_WINDOW)

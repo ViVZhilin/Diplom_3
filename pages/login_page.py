@@ -1,9 +1,8 @@
-from .base_page import BasePage
+from pages.base_page import BasePage
 from locators.login_page_locators import LoginPageLocators
 import allure
 
 class LoginPage(BasePage):
-
     @allure.step('Кликаем на кнопку регистрации')
     def click_registration_button(self):
         self.click_element(LoginPageLocators.REGISTRATION_BUTTON)
@@ -26,4 +25,4 @@ class LoginPage(BasePage):
 
     @allure.step('Кликаем на кнопку входа')
     def click_login_button(self):
-        self.click_element(LoginPageLocators.LOGIN_BUTTON_ON_LOGIN_PAGE) #login_page.click_login_button()
+        self.click_element(LoginPageLocators.LOGIN_BUTTON_ON_LOGIN_PAGE)
