@@ -7,6 +7,4 @@ class OrderListLocators:
     TODAY_ORDER_AMOUNT = (By.XPATH, "//div[p[contains(@class, 'text_type_main-medium') and contains(text(), 'Выполнено за сегодня')]]/p[contains(@class, 'OrderFeed_number__2MbrQ')]")
     ORDER_LIST = (By.CLASS_NAME, "OrderHistory_link__1iNby")
     ORDER_IN_WORK = (By.XPATH, "//li[@class='text text_type_digits-default mb-2']")
-    LOADED_MODAL_WINDOW = (By.XPATH, ".//div[@class = 'Modal_modal_opened__3ISw4 Modal_modal__P3_V5']")
-    LOADING_MODAL_WINDOW = (By.CLASS_NAME, "Modal_modal__P3_V5")
     MODAL_WINDOW_CONTAINER = (By.CLASS_NAME, "Modal_modal__container__Wo2l_")

@@ -40,3 +40,5 @@ class OrderListPage(BasePage):
 
         # Получение значения свойства visibility
         return modal.value_of_css_property("visibility")
+
+

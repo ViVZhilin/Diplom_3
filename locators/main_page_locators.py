@@ -24,6 +24,8 @@ class MainPageLocators:
     NEW_BUN_IN_LIST = (By.XPATH, "//a[@href='/ingredient/61c0c5a71d1f82001bdaaa6c']")
     ADDED_INGREDIENTS = (By.XPATH, ".//ul[@class = 'BurgerConstructor_basket__list__l9dp_']") #Собранный конструктор
     ORDER_BUTTON = (By.XPATH, ".//button[text()='Оформить заказ']")
-    ORDER_ID = (By.XPATH, ".//h2[@class='Modal_modal__title_shadow__3ikwq Modal_modal__title__2L34m text text_type_digits-large mb-8']")
     CLOSE_BUTTON_IN_MODAL_WINDOW = (By.XPATH,".//button[@class = 'Modal_modal__close_modified__3V5XS Modal_modal__close__TnseK']")
     INGREDIENTS_AMOUNT = (By.XPATH, ".//p[@class='counter_counter__num__3nue1']")
+    LOADED_MODAL_WINDOW = (By.XPATH, ".//div[@class = 'Modal_modal_opened__3ISw4 Modal_modal__P3_V5']")
+    LOADING_MODAL_WINDOW = (By.CLASS_NAME, "Modal_modal__P3_V5")
+    ORDER_ID = (By.XPATH, ".//h2[@class='Modal_modal__title_shadow__3ikwq Modal_modal__title__2L34m text text_type_digits-large mb-8']")
